@@ -37,22 +37,54 @@ The practicals demonstrate how a computer processes instructions, performs calcu
 | GitHub                      | Project hosting and documentation |
 
 ## 🧠 Architecture
+## 🧮 CPU Registers of Mano's Basic Computer
 
-This project is based on **Mano's Basic Computer**, a model computer architecture used to study the internal working of a CPU.
+Mano's Basic Computer consists of several registers that store data, instructions, memory addresses, and intermediate results during program execution.
 
-<details>
-<summary><b>Main CPU Components</b></summary>
+| Register |    Size | Full Form                | Function                                                 |
+| -------- | ------: | ------------------------ | -------------------------------------------------------- |
+| **AR**   | 12 bits | Address Register         | Holds the address of a memory location                   |
+| **PC**   | 12 bits | Program Counter          | Stores the address of the next instruction               |
+| **DR**   | 16 bits | Data Register            | Holds data read from memory                              |
+| **AC**   | 16 bits | Accumulator              | Stores operands and arithmetic or logical results        |
+| **IR**   | 16 bits | Instruction Register     | Holds the current instruction                            |
+| **TR**   | 16 bits | Temporary Register       | Stores temporary data during execution                   |
+| **INPR** |  8 bits | Input Register           | Holds data received from an input device                 |
+| **OUTR** |  8 bits | Output Register          | Holds data to be sent to an output device                |
+| **E**    |   1 bit | Extend / Carry Flip-Flop | Stores the carry bit and participates in circular shifts |
+| **SC**   |  4 bits | Sequence Counter         | Controls the sequence of timing steps                    |
 
-* **AC (Accumulator):** Stores operands and intermediate arithmetic or logical results.
-* **E (Extend):** Stores the carry or extend bit and participates in circular shift operations.
-* **PC (Program Counter):** Holds the address of the next instruction.
-* **AR (Address Register):** Holds the memory address used by the CPU.
-* **IR (Instruction Register):** Holds the current instruction.
-* **Memory:** Stores instructions and data.
-* **Control Unit:** Coordinates instruction execution and the flow of data.
-* **ALU:** Performs arithmetic and logical operations.
+### ⚙️ Register-Reference Instructions
 
-</details>
+Register-reference instructions directly manipulate the CPU registers without accessing memory.
+
+| Instruction | Microoperation         | Description                                      |
+| ----------- | ---------------------- | ------------------------------------------------ |
+| `CLA`       | AC ← 0                 | Clears the accumulator                           |
+| `CLE`       | E ← 0                  | Clears the E flip-flop                           |
+| `CMA`       | AC ← AC'               | Complements the accumulator                      |
+| `CME`       | E ← E'                 | Complements the E flip-flop                      |
+| `CIR`       | AC, E ← Circular Right | Rotates AC and E one bit to the right            |
+| `CIL`       | AC, E ← Circular Left  | Rotates AC and E one bit to the left             |
+| `INC`       | AC ← AC + 1            | Increments the accumulator                       |
+| `SPA`       | If AC ≥ 0, skip        | Skips the next instruction if AC is non-negative |
+| `SNA`       | If AC < 0, skip        | Skips the next instruction if AC is negative     |
+| `SZA`       | If AC = 0, skip        | Skips the next instruction if AC is zero         |
+| `SZE`       | If E = 0, skip         | Skips the next instruction if E is zero          |
+| `HLT`       | S ← 0                  | Halts program execution                          |
+
+### 🔄 Register Organization
+
+The registers work together to execute instructions through the fetch, decode, and execute cycle.
+
+* **AR and PC:** Manage memory addresses and instruction sequencing.
+* **IR:** Holds the instruction currently being decoded and executed.
+* **DR and AC:** Handle data transfers and arithmetic or logical operations.
+* **TR:** Temporarily holds data during processing.
+* **INPR and OUTR:** Handle input and output operations.
+* **E:** Stores carry information and supports circular shift operations.
+* **SC:** Controls the timing sequence of instruction execution.
+* 
 
 ## 📚 Practicals Included
 
